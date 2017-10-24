@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use App\Repositories\Posts;
 
 use Illuminate\Http\Request;
 
@@ -13,8 +14,11 @@ class PostsController extends Controller
         $this->middleware('auth')->except(['index', 'show']);
     }
 
-    public function index()
+    public function index(Posts $posts)
     {
+
+        $posts = $posts->all();
+
         if (request(['month', 'year']))
         {
             $posts = Post::latest()
