@@ -6,12 +6,6 @@ use App\User;
 
 class RegistrationController extends Controller
 {
-    
-    public function __construct()
-    {
-        $this->middleware('guest', ['except' => 'destroy']);
-    }
-
     public function create()
     {
         return view('registration.create');
@@ -19,11 +13,21 @@ class RegistrationController extends Controller
 
     public function store()
     {
-        if (!auth()->attempt(['email', 'password'])) {
-            return back()->whithError([
-                'message' => 'Try again!'
-            ]);
-        };
+        $this->validate(request(), [
+            'name' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|confirmed'
+        ]);
+
+        //$user = User::create(request(['name', 'email', 'password']));
+
+        $user = User::create([
+            'name' => request('name'),
+            'email' => request('email'),
+            'password'=> bcrypt(request('email'))
+        ]);
+
+        auth()->login($user);
 
         return redirect()->home();
     }
