@@ -15,7 +15,6 @@ class PostsController extends Controller
 
     public function index()
     {
-
         if (request(['month', 'year']))
         {
             $posts = Post::latest()
@@ -35,7 +34,6 @@ class PostsController extends Controller
 
     public function store()
     {
-
         $this->validate(request(), [
             'title' => 'required',
             'body' => 'required',
@@ -46,7 +44,6 @@ class PostsController extends Controller
         );
 
         return redirect('/');
-
     }
 
     public function show(Post $post)
