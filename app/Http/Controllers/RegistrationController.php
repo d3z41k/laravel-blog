@@ -16,6 +16,8 @@ class RegistrationController extends Controller
 
         $form->persist();
 
+        session()->flash('message', 'You have success register');
+
         return redirect()->home();
     }
 
